@@ -1,0 +1,23 @@
+## TODO: check if it is a minor version upgrade, otherwise error out
+## TODO: rollback if upgrade is not successful
+## TODO: verify that node is ready and upgraded
+---
+- name: Globals
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Set facts
+      set_fact:
+        old_version: "{{ microk8s_version }}"
+        new_version: "{{ new_version }}"
+- name: Upgrade Kubernetes
+  hosts: microk8s_HA, microk8s_WORKERS
+  serial: 1
+  tasks:
+    - name: Drain node {{ ansible_hostname }}
+      shell: "microk8s kubectl drain {{ ansible_hostname }} --ignore-daemonsets --delete-emptydir-data"
+    - name: "Update microk8s from {{ old_version }} to {{ new_version }}"
+      become: yes
+      shell: "snap refresh microk8s --channel {{ new_version }}"
+    - name: Uncordon node {{ ansible_hostname }}
+      shell: "microk8s kubectl uncordon {{ ansible_hostname }}"
