@@ -7,4 +7,3 @@
           ingress: true
           metrics-server: false
           cert-manager: true
-          openebs: true
