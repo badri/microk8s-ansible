@@ -2,7 +2,6 @@
   roles:
     - role: 'istvano.microk8s'
       vars:
-        microk8s_version: "1.23/stable"
         microk8s_plugins:
           dns: "1.1.1.1"
           ingress: true
