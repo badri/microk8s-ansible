@@ -2,6 +2,8 @@
   roles:
     - role: ansible_role_microk8s
       vars:
+        microk8s_enable_HA: true
+        add_workers_to_hostfile: true
         microk8s_plugins:
           dns: "1.1.1.1"
           ingress: true
