@@ -6,6 +6,6 @@
         add_workers_to_hostfile: true
         microk8s_plugins:
           dns: "1.1.1.1"
-          ingress: true
+          ingress: false
           metrics-server: false
-          cert-manager: true
+          cert-manager: false
