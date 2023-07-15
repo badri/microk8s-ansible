@@ -5,7 +5,7 @@
         microk8s_enable_HA: true
         add_workers_to_hostfile: true
         microk8s_plugins:
-          dns: "1.1.1.1"
-          ingress: false
-          metrics-server: false
-          cert-manager: false
+          rbac: true
+          ingress: true
+          metrics-server: true
+          cert-manager: true
