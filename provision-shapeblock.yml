@@ -1,0 +1,33 @@
+- hosts: microk8s_HA
+  gather_facts: no
+  tasks:
+
+    - name: Install SB repo
+      shell: "microk8s addons repo add shapeblock https://github.com/shapeblock/microk8s-addons"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
+
+    - name: Enable cluster issuer
+      shell: "microk8s enable sb-cluster-issuer --email {{ email }}"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
+
+    - name: Install SB registry
+      shell: "microk8s enable sb-registry --cluster-name {{ domain }} --password {{ password }}"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
+
+    - name: Install SB Helm controller
+      shell: "microk8s enable sb-flux"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
+
+    - name: Install kpack
+      shell: "microk8s enable sb-kpack"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
+
+    - name: Install SB operator
+      shell: "microk8s enable sb-operator --sb-url {{ sb_url }} --cluster-uuid {{ cluster_uuid }} --registry registry.{{ domain }}.{{ tld }} --username {{ domain }} --password {{ password }}"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
