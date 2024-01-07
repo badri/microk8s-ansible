@@ -9,3 +9,5 @@
           ingress: true
           metrics-server: true
           cert-manager: true
+          community: true
+          nfs: true
