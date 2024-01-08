@@ -1,0 +1,13 @@
+---
+- name: Change hostname if set to localhost
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get current hostname
+      ansible.builtin.command: hostname
+      register: current_hostname
+
+    - name: Change hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+      when: current_hostname.stdout == "localhost"
