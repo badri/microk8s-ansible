@@ -6,6 +6,12 @@
       shell: "microk8s addons repo add shapeblock https://github.com/shapeblock/microk8s-addons"
       run_once: true
       delegate_to: "{{groups['microk8s_HA'][0]}}"
+      ignore_errors: true
+
+    - name: Update SB repo
+      shell: "microk8s addons repo  update shapeblock"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
 
     - name: Enable cluster issuer
       shell: "microk8s enable sb-cluster-issuer --email {{ email }}"
