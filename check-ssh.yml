@@ -1,0 +1,11 @@
+---
+- name: Check SSH connectivity to all hosts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Ping test
+      ansible.builtin.ping:
+      register: ping_result
+      until: ping_result is succeeded
+      retries: 10
+      delay: 20

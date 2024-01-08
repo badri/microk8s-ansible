@@ -1,0 +1,14 @@
+---
+- name: Install nfs-common on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install nfs-common
+      ansible.builtin.apt:
+        name: nfs-common
+        state: present
