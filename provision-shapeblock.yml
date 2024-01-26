@@ -9,7 +9,6 @@
         groups: microk8s
         append: yes
       when: ansible_ssh_user == "ubuntu"
-      become: yes
 
     - name: Change owner of ~/.kube to 'ubuntu' user
       file:
@@ -18,13 +17,11 @@
         group: ubuntu
         recurse: yes
       when: ansible_ssh_user == "ubuntu"
-      become: yes
 
     - name: Reset ssh connection to allow user changes to affect ansible user
       ansible.builtin.meta:
         reset_connection
       when: ansible_ssh_user == "ubuntu"
-      become: yes
 
     - name: Install SB repo
       shell: "microk8s addons repo add shapeblock https://github.com/shapeblock/microk8s-addons"
