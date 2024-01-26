@@ -1,7 +1,8 @@
 - hosts: microk8s_HA
   gather_facts: no
+  become: yes
   tasks:
-      
+
     - name: Remove nodes
       shell: "microk8s remove-node {{ item }}"
       loop: "{{ nodes.split(',') }}"

@@ -1,5 +1,6 @@
 - hosts: microk8s_HA
   gather_facts: no
+  become: yes
   tasks:
 
     - name: Add the 'ubuntu' user to the 'microk8s' group
