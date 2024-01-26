@@ -25,6 +25,13 @@
         line: "IP.10 = {{ ansible_ssh_host }}"
       when: ansible_ssh_user == "ubuntu"
 
+    - name: Remove cert-reissue file if it exists
+      file:
+        path: /var/snap/microk8s/current/var/lock/no-cert-reissue
+        state: absent
+      when: ansible_ssh_user == "ubuntu"
+      ignore_errors: true
+
     - name: Reset ssh connection to allow user changes to affect ansible user
       ansible.builtin.meta:
         reset_connection
