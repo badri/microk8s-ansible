@@ -2,6 +2,26 @@
   gather_facts: no
   tasks:
 
+    - name: Add the 'ubuntu' user to the 'microk8s' group
+      user:
+        name: ubuntu
+        groups: microk8s
+        append: yes
+      when: ansible_ssh_user == "ubuntu"
+
+    - name: Change owner of ~/.kube to 'ubuntu' user
+      file:
+        path: "~/.kube"
+        owner: ubuntu
+        group: ubuntu
+        recurse: yes
+      when: ansible_ssh_user == "ubuntu"
+
+    - name: Reset ssh connection to allow user changes to affect ansible user
+      ansible.builtin.meta:
+        reset_connection
+      when: ansible_ssh_user == "ubuntu"
+
     - name: Install SB repo
       shell: "microk8s addons repo add shapeblock https://github.com/shapeblock/microk8s-addons"
       run_once: true
