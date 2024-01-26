@@ -18,6 +18,13 @@
         recurse: yes
       when: ansible_ssh_user == "ubuntu"
 
+    - name: add HA public IP
+      lineinfile:
+        dest: "/var/snap/microk8s/current/certs/csr.conf.template"
+        insertafter: '#MOREIPS'
+        line: "IP.10 = {{ ansible_default_ipv4.address }}"
+      when: ansible_ssh_user == "ubuntu"
+
     - name: Reset ssh connection to allow user changes to affect ansible user
       ansible.builtin.meta:
         reset_connection
