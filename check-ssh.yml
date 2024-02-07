@@ -3,9 +3,9 @@
   gather_facts: no
   tasks:
 
-  - name: Pause for 2 minutes for VMs to be up
-    ansible.builtin.pause:
-      minutes: 2
+    - name: Pause for 2 minutes for VMs to be up
+      ansible.builtin.pause:
+        minutes: 2
 
     - name: Wait for SSH port to become available
       wait_for:
