@@ -8,4 +8,4 @@
       register: ping_result
       until: ping_result is succeeded
       retries: 10
-      delay: 20
+      delay: 60
