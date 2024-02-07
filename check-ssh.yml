@@ -3,9 +3,13 @@
   hosts: all
   gather_facts: no
   tasks:
-    - name: Ping test
-      ansible.builtin.ping:
-      register: ping_result
-      until: ping_result is succeeded
-      retries: 10
+    - name: Wait for SSH port to become available
+      wait_for:
+        host: "{{ inventory_hostname }}"  # Use the host from inventory
+        port: 22  # SSH port
+        state: started  # Wait for the port to be open
+        timeout: 300  # Wait up to 300 seconds
+      retries: 5
       delay: 60
+      register: ssh_ready
+      until: ssh_ready is succeeded
