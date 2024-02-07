@@ -15,6 +15,6 @@
         timeout: 300  # Maximum wait time
         delay: 10  # Wait 10 seconds before the first attempt
       retries: 10
-      delay: 60
+      delay: 30
       register: ssh_ready
       until: ssh_ready is succeeded
