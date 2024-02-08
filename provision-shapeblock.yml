@@ -56,7 +56,6 @@
     - name: Escape $ characters in the bcrypt hash
       set_fact:
         escaped_hashed_password: "{{ hashed_password | regex_replace('\\$', '\\\\$') }}"
-
     # [END] Registry
 
     - name: Install SB Helm controller
@@ -80,6 +79,6 @@
       delegate_to: "{{groups['microk8s_HA'][0]}}"
 
     - name: Install SB registry
-      shell: "microk8s enable sb-registry --cluster-name {{ domain }} --password {{ password }} --tld {{ tld }}"
+      shell: "microk8s enable sb-registry --cluster-name {{ domain }} --password \"{{ escaped_hashed_password }}\"  --tld {{ tld }}"
       run_once: true
       delegate_to: "{{groups['microk8s_HA'][0]}}"
