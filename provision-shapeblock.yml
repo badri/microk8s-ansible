@@ -48,11 +48,6 @@
       run_once: true
       delegate_to: "{{groups['microk8s_HA'][0]}}"
 
-    - name: Enable cluster issuer
-      shell: "microk8s enable sb-cluster-issuer --email {{ email }}"
-      run_once: true
-      delegate_to: "{{groups['microk8s_HA'][0]}}"
-
     # [BEGIN] Registry
     - name: Generate bcrypt hash of the password
       set_fact:
@@ -62,15 +57,6 @@
       set_fact:
         escaped_hashed_password: "{{ hashed_password | regex_replace('\\$', '\\\\$') }}"
 
-    - name: Install SB registry
-      shell: "microk8s enable sb-registry --cluster-name {{ domain }} --password \"{{ escaped_hashed_password }}\"  --tld {{ tld }}"
-      run_once: true
-      delegate_to: "{{groups['microk8s_HA'][0]}}"
-
-    - name: Install SB registry
-      shell: "microk8s enable sb-registry --cluster-name {{ domain }} --password {{ password }} --tld {{ tld }}"
-      run_once: true
-      delegate_to: "{{groups['microk8s_HA'][0]}}"
     # [END] Registry
 
     - name: Install SB Helm controller
@@ -88,3 +74,12 @@
       run_once: true
       delegate_to: "{{groups['microk8s_HA'][0]}}"
 
+    - name: Enable cluster issuer
+      shell: "microk8s enable sb-cluster-issuer --email {{ email }}"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
+
+    - name: Install SB registry
+      shell: "microk8s enable sb-registry --cluster-name {{ domain }} --password {{ password }} --tld {{ tld }}"
+      run_once: true
+      delegate_to: "{{groups['microk8s_HA'][0]}}"
